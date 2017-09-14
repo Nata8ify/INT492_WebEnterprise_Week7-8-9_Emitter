@@ -15,10 +15,10 @@ spring:
     mode: LEGACYHTML5
     cache: false
     encoding: UTF-8
-  security:
-    user:
-     name: user
-     password: 123
+security:
+  user:
+   name: user
+   password: 123
     
 ---
 spring:
