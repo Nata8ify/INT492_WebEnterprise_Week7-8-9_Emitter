@@ -1,9 +1,11 @@
 package com.arms.app.user;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,5 +35,15 @@ public class LoginController {
 		redirectAttributes.addFlashAttribute("message", "Login Successful");
 		model.addObject("loginSuccess", true);
 		return "redirect:/";
+	}
+
+	@RequestMapping("/loginUser")
+	@ResponseBody
+	public Object currentUser(Authentication authentication){
+	if(authentication != null){
+	return authentication.isAuthenticated();
+	} else {
+	return "Authentication is null!!";
+	}
 	}
 }

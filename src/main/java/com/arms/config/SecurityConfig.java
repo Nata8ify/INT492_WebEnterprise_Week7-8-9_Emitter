@@ -32,9 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().and().authorizeRequests()
 				.antMatchers("/static/**", "/javascripts/**", "/images/**", "/**/favicon.ico", "/fonts/**",
 						"/stylesheets/**")
-				.permitAll().and().authorizeRequests()
+				/*.permitAll()*/
+				.hasAuthority("emitter2")
+				.and()
+				.authorizeRequests()
 				.antMatchers("/", "/user/login", "/user/signUp", "/user/add", "/help", "/contact", "/about").permitAll()
-				.anyRequest().authenticated().and().csrf().disable().formLogin().loginPage("/user/login")
+				.anyRequest().authenticated()
+				.and().csrf().disable().formLogin().loginPage("/user/login")
 				.defaultSuccessUrl("/user/successLogin", true).failureUrl("/user/failLogin").usernameParameter("email")
 				.passwordParameter("password").permitAll().and().logout().logoutUrl("/user/logout")
 				.logoutSuccessUrl("/").logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"));

@@ -22,7 +22,7 @@ public class AuthenticationService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findOneByEmail(email);
-		GrantedAuthority authority = new SimpleGrantedAuthority("emitter");
+		GrantedAuthority authority = new SimpleGrantedAuthority("emitter2");
 		boolean isEnabled = true;
 		boolean isAccountNonExpired = true;
 		boolean isCredentialsNonExpired = true;

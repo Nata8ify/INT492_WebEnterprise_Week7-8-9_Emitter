@@ -16,7 +16,7 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public ModelAndView home(ModelAndView modelAndView, Principal principal){
-		controllerAspect.setIsLogin(modelAndView, principal);
+		//controllerAspect.setIsLogin(modelAndView, principal);
 		modelAndView.setViewName("home/home");
 		return modelAndView;
 	}
