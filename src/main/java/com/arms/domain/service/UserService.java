@@ -3,6 +3,7 @@ package com.arms.domain.service;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,10 @@ public class UserService extends AppService {
 		user.setCreated(nowDate);
 		user.setUpdated(nowDate);
 		userRepository.save(user);
+		}
+	
+	public List<User> findAllUser(){
+		return userRepository.findAll();
 		}
 
 }
