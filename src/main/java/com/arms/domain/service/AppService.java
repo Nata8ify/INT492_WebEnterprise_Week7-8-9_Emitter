@@ -15,6 +15,20 @@ public class AppService {
 	@Autowired
 	UserRepository userRepository;
 
+	public Integer getUserId(Principal principal) {
+		if (principal == null)
+			return null;
+		else {
+			Authentication auth = (Authentication) principal;
+			UserDetails userDetails = (UserDetails) auth.getPrincipal();
+			User user = userRepository.findOneByEmail(userDetails.getUsername());
+			if (user == null)
+				return null;
+			else
+				return user.getId();
+		}
+	}
+
 	public User findOne(Principal principal) {
 		if (principal == null) {
 			return null;
