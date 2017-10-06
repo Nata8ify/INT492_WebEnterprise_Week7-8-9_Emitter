@@ -3,6 +3,8 @@ package com.arms.app.user;
 import java.security.Principal;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,8 @@ import com.arms.domain.service.UserService;
 @Controller
 public class UserController {
 
+	Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	@Autowired
 	UserService userService;
 
