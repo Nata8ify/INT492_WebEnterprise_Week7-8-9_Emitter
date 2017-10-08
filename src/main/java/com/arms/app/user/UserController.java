@@ -26,12 +26,13 @@ public class UserController {
 
 	@RequestMapping("/user/list")
 	public ModelAndView list(ModelAndView modelAndView, Principal principal, Pageable pageable) {
-		// ---> Do Page
+		// ---> Do a Page Things
 		Page<User> userPage = userService.findAllUser(pageable);
 		PageWrapper<User> page = new PageWrapper<>(userPage, "/user/list");
-		// <--- Do Page
+		// <--- Do a Page Things
 		// List<User> users = userService.findAllUser();
 		modelAndView.addObject("users", page.getContent());
+		modelAndView.addObject("pageReq", pageable);
 		modelAndView.addObject("page", page);
 		modelAndView.addObject("user/list");
 		modelAndView.addObject("userId", userService.getUserId(principal));

@@ -57,7 +57,7 @@
 		</div>
 		<!-- End Of Pagination -->
 		<hr />
-		<ul>
+		<ul><li th:text="'Page Request : '+${pageReq}"></li>
 			<li th:text="'Total Pages : '+${page.getTotalPages()}"></li>
 			<li th:text="'Max Items/Page : '+${T(com.arms.domain.component.PageWrapper).MAX_PAGE_ITEM_DISPLAY}"> </li>
 		</ul>
