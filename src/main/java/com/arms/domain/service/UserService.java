@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.arms.app.user.UserAddForm;
+import com.arms.app.user.UserEditForm;
 import com.arms.domain.component.PasswordEncoder;
 import com.arms.domain.entity.User;
 
@@ -31,12 +32,37 @@ public class UserService extends AppService {
 		userRepository.save(user);
 	}
 
-	 public List<User> findAllUser(){
-	 return userRepository.findAll();
-	 }
+	public List<User> findAllUser() {
+		return userRepository.findAll();
+	}
 
 	public Page<User> findAllUser(Pageable pageable) {
 		return userRepository.findAll(pageable);
 	}
 
+	public User findOne(int id) {
+		return userRepository.findOne(id);
+	}
+
+	public UserEditForm setUserEditForm(int userId) {
+		User user = userRepository.findOne(userId);
+		UserEditForm userEditForm = new UserEditForm();
+		userEditForm.setUserId(user.getId());
+		userEditForm.setName(user.getName());
+		userEditForm.setEmail(user.getEmail());
+		return userEditForm;
+	}
+
+	public void updateUser(UserEditForm userEditForm) throws NoSuchAlgorithmException {
+		Date nowDate = Calendar.getInstance().getTime();
+		User user = userRepository.findOne(userEditForm.getUserId());
+		user.setName(userEditForm.getName());
+		user.setPassword(passwordEncoder.hashMD5(userEditForm.getPassword()));
+		user.setUpdated(nowDate);
+		userRepository.save(user);
+	}
+
+	public void deleteUser(int userId) {
+		userRepository.delete(userId);
+	}
 }
