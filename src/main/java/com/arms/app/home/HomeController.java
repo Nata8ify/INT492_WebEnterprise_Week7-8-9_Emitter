@@ -24,7 +24,7 @@ public class HomeController {
 	@Autowired
 	HomeService homeService;
 
-	@ModelAttribute
+	@ModelAttribute(name = "mcf")
 	MicropostCreateForm setMicropostCreateForm() {
 		return new MicropostCreateForm();
 	}

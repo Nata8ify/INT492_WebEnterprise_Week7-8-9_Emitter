@@ -16,7 +16,7 @@
 			</button>
 		</div>
 		<form th:action="@{/micropost/create}"
-			th:object="${micropostCreateForm}" method="post" role="form"
+			th:object="${mcf}" method="post" role="form"
 			name="form1">
 			<div class="field">
 				<textarea class="form-control" th:field="*{content}"
