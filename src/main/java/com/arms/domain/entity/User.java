@@ -1,12 +1,15 @@
 package com.arms.domain.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -17,6 +20,7 @@ public class User {
 	private String password;
 	private Date created;
 	private Date updated;
+	private List<Micropost> micropostList;
 	
 	@Id
 	@GeneratedValue
@@ -80,6 +84,14 @@ public class User {
 		this.updated = updated;
 	}
 
-	
+
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+	public List<Micropost> getMicropostList() {
+		return micropostList;
+	}
+
+	public void setMicropostList(List<Micropost> micropostList) {
+		this.micropostList = micropostList;
+	}
 	
 }

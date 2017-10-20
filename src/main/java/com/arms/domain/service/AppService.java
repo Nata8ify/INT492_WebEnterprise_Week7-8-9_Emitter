@@ -8,13 +8,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.arms.domain.entity.User;
+import com.arms.domain.repository.MicropostRepository;
 import com.arms.domain.repository.UserRepository;
 
 @Service
 public class AppService {
 	@Autowired
 	UserRepository userRepository;
-
+	@Autowired
+	MicropostRepository micropostRepository;
+	
 	public Integer getUserId(Principal principal) {
 		if (principal == null)
 			return null;

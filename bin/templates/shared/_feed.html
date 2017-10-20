@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+<title>feed</title>
+</head>
+<body>
+<div th:fragment="feed" th:remove="tag">
+<!-- shared _feed.html included into home.html -->
+<ol class="microposts">
+<span th:each="micropost, stat : ${microposts}">
+<section><div th:include="shared/_feed_item :: feed_item(${micropost})">feed_item</div></section>
+</span>
+</ol>
+<!-- shared _feed.html included into home.html End -->
+</div>
+</body>
+</html>
