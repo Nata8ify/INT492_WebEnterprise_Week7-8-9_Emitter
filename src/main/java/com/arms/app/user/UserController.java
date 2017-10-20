@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.arms.domain.component.PageWrapper;
+import com.arms.domain.entity.Micropost;
 import com.arms.domain.entity.User;
 import com.arms.domain.service.UserService;
 
@@ -71,5 +72,18 @@ public class UserController {
 		userService.deleteUser(userId);
 		redirectAttributes.addFlashAttribute("message", "User was deleted.");
 		return "redirect:/";
+	}
+	
+	@RequestMapping("/user/show/{userId}")
+	public ModelAndView show(@PathVariable int userId, ModelAndView modelAndView, Pageable pageable,
+	Principal principal){
+	User user = userService.findOne(userId);
+	modelAndView.addObject("user", user);
+	Page<Micropost> micropostPage = userService.findAllMicropostByUserId(userId, pageable);
+	PageWrapper<Micropost> page = new PageWrapper<>(micropostPage, "/user/show" + '/' + userId);
+	modelAndView.addObject("microposts", page.getContent());
+	modelAndView.addObject("page", page);
+	modelAndView.setViewName("user/show");
+	return modelAndView;
 	}
 }

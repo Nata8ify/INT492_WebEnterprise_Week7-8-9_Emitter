@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.arms.app.user.UserAddForm;
 import com.arms.app.user.UserEditForm;
 import com.arms.domain.component.PasswordEncoder;
+import com.arms.domain.entity.Micropost;
 import com.arms.domain.entity.User;
 
 @Service
@@ -65,4 +66,8 @@ public class UserService extends AppService {
 	public void deleteUser(int userId) {
 		userRepository.delete(userId);
 	}
+	
+	public Page<Micropost> findAllMicropostByUserId(int userId, Pageable pageable) {
+		return micropostRepository.findAllByUserIdOrderByUpdatedDesc(userId, pageable);
+		}
 }

@@ -9,8 +9,8 @@ import com.arms.app.home.MicropostCreateForm;
 import com.arms.domain.entity.Micropost;
 
 @Service
-public class MicropostService extends AppService{
-	public int createMicropost(MicropostCreateForm micropostCreateForm){
+public class MicropostService extends AppService {
+	public int createMicropost(MicropostCreateForm micropostCreateForm) {
 		Date nowDate = Calendar.getInstance().getTime();
 		Micropost micropost = new Micropost();
 		micropost.setContent(micropostCreateForm.getContent());
@@ -19,5 +19,9 @@ public class MicropostService extends AppService{
 		micropost.setUpdated(nowDate);
 		micropostRepository.save(micropost);
 		return micropost.getId();
-		}
+	}
+
+	public void deleteMicropost(int micropostId) {
+		micropostRepository.delete(micropostId);
+	}
 }

@@ -32,14 +32,18 @@ public class HomeController {
 	@RequestMapping("/")
 	public ModelAndView home(ModelAndView modelAndView, Principal principal, Pageable pageable) {
 		Integer userId = homeService.getUserId(principal);
+		System.out.println(userId);
 		if (userId != null) {
 			List<Integer> micropostIdList = homeService.getMyMicropost(userId);
 			Page<Micropost> micropostPage = homeService.findAllByIdList(micropostIdList, pageable);
 			PageWrapper<Micropost> page = new PageWrapper<>(micropostPage, "/");
 			modelAndView.addObject("microposts", page.getContent());
 			modelAndView.addObject("page", page);
+			modelAndView.addObject("userId", userId);
 		}
 		modelAndView.setViewName("home/home");
 		return modelAndView;
 	}
+	
+	
 }
