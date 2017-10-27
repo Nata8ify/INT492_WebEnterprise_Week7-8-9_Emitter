@@ -93,5 +93,12 @@ public class User {
 	public void setMicropostList(List<Micropost> micropostList) {
 		this.micropostList = micropostList;
 	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", created="
+				+ created + ", updated=" + updated + ", micropostList=" + micropostList + "]";
+	}
+	
+	
 	
 }

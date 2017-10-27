@@ -97,6 +97,21 @@ public class UserController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "/user/followers/{userId}")
+	public ModelAndView follower(@PathVariable int userId, ModelAndView modelAndView, Principal principal,
+			Pageable pageable) {
+		User user = userService.findOne(userId);
+		modelAndView.addObject("user", user);
+		modelAndView.addObject("following", userService.getFollowingListByUserId(user.getId()));
+		modelAndView.addObject("follower", userService.getFollowerListByUserId(user.getId()));
+		Page<User> userPage = userService.findAllFollower(user.getId(), pageable);
+		PageWrapper<User> page = new PageWrapper<>(userPage, "/user/followers" + '/' + userId);
+		modelAndView.addObject("followers", page.getContent());
+		modelAndView.addObject("page", page);
+		modelAndView.setViewName("user/followers");
+		return modelAndView;
+	}
+
 	@RequestMapping(value = "/user/following/{userId}")
 	public ModelAndView following(@PathVariable int userId, ModelAndView modelAndView, Principal principal,
 			Pageable pageable) {
@@ -104,6 +119,7 @@ public class UserController {
 		modelAndView.addObject("user", user);
 		modelAndView.addObject("follower", userService.getFollowerListByUserId(user.getId()));
 		modelAndView.addObject("following", userService.getFollowingListByUserId(user.getId()));
+		// System.out.println(userService.getFollowingListByUserId(user.getId()).toString());
 		Page<User> userPage = userService.findAllFollowing(user.getId(), pageable);
 		PageWrapper<User> page = new PageWrapper<>(userPage, "/user/following" + '/' + userId);
 		modelAndView.addObject("followings", page.getContent());
@@ -111,15 +127,16 @@ public class UserController {
 		modelAndView.setViewName("user/following");
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value = "/user/follow")
 	public String follow(@ModelAttribute("userFollowForm") UserFollowForm userFollowForm) {
-	userService.addFollow(userFollowForm);
-	return "redirect:/user/show/" + userFollowForm.getUserId();
+		userService.addFollow(userFollowForm);
+		return "redirect:/user/show/" + userFollowForm.getUserId();
 	}
+
 	@RequestMapping(value = "/user/unfollow")
 	public String unFollow(@ModelAttribute("userFollowForm") UserFollowForm userFollowForm) {
-	userService.deleteFollow(userFollowForm);
-	return "redirect:/user/show/" + userFollowForm.getUserId();
+		userService.deleteFollow(userFollowForm);
+		return "redirect:/user/show/" + userFollowForm.getUserId();
 	}
 }

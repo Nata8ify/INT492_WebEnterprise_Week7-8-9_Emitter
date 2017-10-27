@@ -33,6 +33,7 @@ public class ControllerAspect {
 
 	@Before("execution(* com.arms.app.*.*Controller.*(..))")
 	public void invokeBefore(JoinPoint joinPoint) {
+		System.out.println("invokeBefore");
 		Principal principal = null;
 		ModelAndView modelAndView = null;
 		for (Object object : joinPoint.getArgs()) {

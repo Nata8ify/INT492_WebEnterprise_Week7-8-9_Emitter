@@ -22,10 +22,10 @@
 			</aside>
 			<div class="col-xs-8">
 				<ol>
-					<h3>Followers</h3>
+					<h3>Following</h3>
 				</ol>
 				<ol class="microposts">
-					<span th:each="user, stat : ${followers}">
+					<span th:each="user, stat : ${followings}">
 						<li><span class="user"> <a
 								th:href="@{/user/show/} + ${user.id}" th:text="${user.name}">AAA</a>
 						</span></li>
@@ -43,8 +43,8 @@
 								th:if='${not page.hasPreviousPage}'>«</span> <a
 								th:if='${page.hasPreviousPage}'
 								th:href='@{${page.url}(page=${page.number-2},size=${page.size})}'
-								title='Go
-to previous page'>«</a></li>
+								title='Go to
+previous page'>«</a></li>
 							<li th:each='item : ${page.items}'
 								th:class="${item.current}? 'active' : ''"><span
 								th:if='${item.current}' th:text='${item.number}'>1</span> <a
@@ -55,8 +55,8 @@ to previous page'>«</a></li>
 								th:if='${not page.hasNextPage}'>»</span> <a
 								th:if='${page.hasNextPage}'
 								th:href='@{${page.url}(page=${page.number},size=${page.size})}'
-								title='Go to
-next page'>»</a></li>
+								title='Go to next
+page'>»</a></li>
 							<li th:class="${page.lastPage}? 'disabled' : ''"><span
 								th:if='${page.lastPage}'>Last →</span> <a
 								th:if='${not page.lastPage}'
@@ -67,8 +67,8 @@ next page'>»</a></li>
 				</div>
 				<!-- End Of Pagination Bar -->
 			</div>
-			<a class="btn btn-primary btn-small" href="/"> Back to Home </a>
 		</div>
+		<a class="btn btn-primary btn-small" href="/"> Back to Home </a>
 		<!-- Users show.html inserted into main.html End -->
 	</div>
 </body>

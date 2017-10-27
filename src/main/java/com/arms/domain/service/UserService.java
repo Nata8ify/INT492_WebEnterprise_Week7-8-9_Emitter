@@ -74,6 +74,15 @@ public class UserService extends AppService {
 		return micropostRepository.findAllByUserIdOrderByUpdatedDesc(userId, pageable);
 	}
 
+	public Page<User> findAllFollower(int userId, Pageable pageable) {
+		List<RelationShip> relationShipList = relationShipRepository.findAllByUserId(userId);
+		List<Integer> followerIdList = new ArrayList<>();
+		for (RelationShip relationShip : relationShipList) {
+			followerIdList.add(relationShip.getFollowerId());
+		}
+		return userRepository.findByIdInOrderByUpdatedDesc(followerIdList, pageable);
+	}
+
 	public Page<User> findAllFollowing(int userId, Pageable pageable) {
 		List<RelationShip> relationShipList = relationShipRepository.findAllByFollowerId(userId);
 		List<Integer> emitterIdList = new ArrayList<>();
@@ -91,17 +100,18 @@ public class UserService extends AppService {
 	}
 
 	public void addFollow(UserFollowForm userFollowForm) {
-		if(relationShipRepository.findOneByUserIdAndFollowerId(userFollowForm.getUserId(),
-		userFollowForm.getFollowerId()) == null) {
-		RelationShip relationShip = new RelationShip();
-		relationShip.setUserId(userFollowForm.getUserId());
-		relationShip.setFollowerId(userFollowForm.getFollowerId());
-		relationShipRepository.save(relationShip);
+		if (relationShipRepository.findOneByUserIdAndFollowerId(userFollowForm.getUserId(),
+				userFollowForm.getFollowerId()) == null) {
+			RelationShip relationShip = new RelationShip();
+			relationShip.setUserId(userFollowForm.getUserId());
+			relationShip.setFollowerId(userFollowForm.getFollowerId());
+			relationShipRepository.save(relationShip);
 		}
-		}
-	
+	}
+
 	public void deleteFollow(UserFollowForm userFollowForm) {
-		RelationShip relationShip = relationShipRepository.findOneByUserIdAndFollowerId(userFollowForm.getUserId(), userFollowForm.getFollowerId());
+		RelationShip relationShip = relationShipRepository.findOneByUserIdAndFollowerId(userFollowForm.getUserId(),
+				userFollowForm.getFollowerId());
 		if (relationShip != null)
 			relationShipRepository.delete(relationShip);
 	}
