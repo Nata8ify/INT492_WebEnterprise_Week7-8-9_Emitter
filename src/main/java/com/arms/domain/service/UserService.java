@@ -1,6 +1,7 @@
 package com.arms.domain.service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -12,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import com.arms.app.user.UserAddForm;
 import com.arms.app.user.UserEditForm;
+import com.arms.app.user.UserFollowForm;
 import com.arms.domain.component.PasswordEncoder;
 import com.arms.domain.entity.Micropost;
+import com.arms.domain.entity.RelationShip;
 import com.arms.domain.entity.User;
 
 @Service
@@ -66,8 +69,47 @@ public class UserService extends AppService {
 	public void deleteUser(int userId) {
 		userRepository.delete(userId);
 	}
-	
+
 	public Page<Micropost> findAllMicropostByUserId(int userId, Pageable pageable) {
 		return micropostRepository.findAllByUserIdOrderByUpdatedDesc(userId, pageable);
+	}
+
+	public Page<User> findAllFollowing(int userId, Pageable pageable) {
+		List<RelationShip> relationShipList = relationShipRepository.findAllByFollowerId(userId);
+		List<Integer> emitterIdList = new ArrayList<>();
+		for (RelationShip relationShip : relationShipList) {
+			emitterIdList.add(relationShip.getUserId());
 		}
+		return userRepository.findByIdInOrderByUpdatedDesc(emitterIdList, pageable);
+	}
+
+	public UserFollowForm getUserFollowForm(int userId, int followerId) {
+		UserFollowForm userFollowForm = new UserFollowForm();
+		userFollowForm.setUserId(userId);
+		userFollowForm.setFollowerId(followerId);
+		return userFollowForm;
+	}
+
+	public void addFollow(UserFollowForm userFollowForm) {
+		if(relationShipRepository.findOneByUserIdAndFollowerId(userFollowForm.getUserId(),
+		userFollowForm.getFollowerId()) == null) {
+		RelationShip relationShip = new RelationShip();
+		relationShip.setUserId(userFollowForm.getUserId());
+		relationShip.setFollowerId(userFollowForm.getFollowerId());
+		relationShipRepository.save(relationShip);
+		}
+		}
+	
+	public void deleteFollow(UserFollowForm userFollowForm) {
+		RelationShip relationShip = relationShipRepository.findOneByUserIdAndFollowerId(userFollowForm.getUserId(), userFollowForm.getFollowerId());
+		if (relationShip != null)
+			relationShipRepository.delete(relationShip);
+	}
+
+	public boolean isFollow(int emitterUserId, int followerUserId) {
+		if (relationShipRepository.findOneByUserIdAndFollowerId(emitterUserId, followerUserId) == null)
+			return false;
+		else
+			return true;
+	}
 }

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,17 +74,52 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("message", "User was deleted.");
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping("/user/show/{userId}")
 	public ModelAndView show(@PathVariable int userId, ModelAndView modelAndView, Pageable pageable,
-	Principal principal){
-	User user = userService.findOne(userId);
-	modelAndView.addObject("user", user);
-	Page<Micropost> micropostPage = userService.findAllMicropostByUserId(userId, pageable);
-	PageWrapper<Micropost> page = new PageWrapper<>(micropostPage, "/user/show" + '/' + userId);
-	modelAndView.addObject("microposts", page.getContent());
-	modelAndView.addObject("page", page);
-	modelAndView.setViewName("user/show");
-	return modelAndView;
+			Principal principal) {
+		modelAndView.addObject("following", userService.getFollowingListByUserId(userId));
+		modelAndView.addObject("follower", userService.getFollowerListByUserId(userId));
+		User user = userService.findOne(userId);
+		modelAndView.addObject("user", user);
+		Page<Micropost> micropostPage = userService.findAllMicropostByUserId(userId, pageable);
+
+		User loginUser = userService.findOne(principal);
+		if (user.getId() != loginUser.getId()) {
+			modelAndView.addObject("isFollow", userService.isFollow(user.getId(), loginUser.getId()));
+			modelAndView.addObject("userFollowForm", userService.getUserFollowForm(user.getId(), loginUser.getId()));
+		}
+
+		PageWrapper<Micropost> page = new PageWrapper<>(micropostPage, "/user/show" + '/' + userId);
+		modelAndView.addObject("microposts", page.getContent());
+		modelAndView.addObject("page", page);
+		modelAndView.setViewName("user/show");
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/user/following/{userId}")
+	public ModelAndView following(@PathVariable int userId, ModelAndView modelAndView, Principal principal,
+			Pageable pageable) {
+		User user = userService.findOne(userId);
+		modelAndView.addObject("user", user);
+		modelAndView.addObject("follower", userService.getFollowerListByUserId(user.getId()));
+		modelAndView.addObject("following", userService.getFollowingListByUserId(user.getId()));
+		Page<User> userPage = userService.findAllFollowing(user.getId(), pageable);
+		PageWrapper<User> page = new PageWrapper<>(userPage, "/user/following" + '/' + userId);
+		modelAndView.addObject("followings", page.getContent());
+		modelAndView.addObject("page", page);
+		modelAndView.setViewName("user/following");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/user/follow")
+	public String follow(@ModelAttribute("userFollowForm") UserFollowForm userFollowForm) {
+	userService.addFollow(userFollowForm);
+	return "redirect:/user/show/" + userFollowForm.getUserId();
+	}
+	@RequestMapping(value = "/user/unfollow")
+	public String unFollow(@ModelAttribute("userFollowForm") UserFollowForm userFollowForm) {
+	userService.deleteFollow(userFollowForm);
+	return "redirect:/user/show/" + userFollowForm.getUserId();
 	}
 }

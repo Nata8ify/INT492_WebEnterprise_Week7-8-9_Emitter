@@ -16,8 +16,19 @@
 						<span th:text="${user.name}">AAA</span>
 					</h1>
 				</section>
+				<section>
+					<div th:include="shared/_stats :: stats">stats</div>
+				</section>
 			</aside>
+			<div th:unless="${loginUser.id == user.id}" id="follow_form">
+				<span th:if="${isFollow}">
+					<div th:include="user/_unfollow :: unfollow">unfollow</div>
+				</span> <span th:unless="${isFollow}">
+					<div th:include="user/_follow :: follow">follow</div>
+				</span>
+			</div> <!-- P -->
 			<div class="col-xs-8">
+			<div th:if="${isLogin}" th:include="user/_follow_form :: follow_form">follow_form</div>
 				<span th:if="${microposts.size() > 0}">
 					<ol>
 						<h3 th:text="'Microposts (' + ${microposts.size()} + ')'">CCC</h3>

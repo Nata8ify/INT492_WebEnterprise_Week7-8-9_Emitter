@@ -12,4 +12,8 @@ public class StaticPageController {
 		return "static/help";
 	}
 
+	@RequestMapping("/about")
+	public String about(){
+		return "static/about";
+	}
 }
