@@ -34,6 +34,8 @@ public class HomeController {
 		Integer userId = homeService.getUserId(principal);
 		System.out.println(userId);
 		if (userId != null) {
+			modelAndView.addObject("following", homeService.getFollowingListByUserId(userId));
+			modelAndView.addObject("follower", homeService.getFollowerListByUserId(userId));
 			List<Integer> micropostIdList = homeService.getMyMicropost(userId);
 			Page<Micropost> micropostPage = homeService.findAllByIdList(micropostIdList, pageable);
 			PageWrapper<Micropost> page = new PageWrapper<>(micropostPage, "/");

@@ -13,7 +13,12 @@
 			You have logged in
 			<aside class="col-xs-4">
 				<section>
-				<section><div th:include="shared/_user_info :: user_info">user_info</div></section>
+					<section>
+						<div th:include="shared/_user_info :: user_info">user_info</div>
+					</section>
+					<section>
+						<div th:include="shared/_stat :: stats">stats</div>
+					</section>
 					<div th:include="shared/_micropost_form :: micropost_form">micropost_form</div>
 				</section>
 			</aside>
