@@ -26,7 +26,13 @@
 				</ol>
 				<ol class="microposts">
 					<span th:each="user, stat : ${followings}">
-						<li><span class="user"> <a
+						<li>
+						<div>
+				<div>
+					<img th:src="'http://secure.gravatar.com/avatar/'+${user.avatar}" />
+				</div>
+				<div>
+						<span class="user"> <a
 								th:href="@{/user/show/} + ${user.id}" th:text="${user.name}">AAA</a>
 						</span></li>
 					</span>

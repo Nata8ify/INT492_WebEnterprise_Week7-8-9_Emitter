@@ -8,19 +8,18 @@
 	<div th:fragment="stats" th:remove="tag">
 		<!-- shared _stats.html included into home.html or show_follow.html or show.html -->
 		<div class="stats">
-						<div>
-					<div>
-						<img
-							th:src="'http://secure.gravatar.com/avatar/'+${user.avatar}" />
-					</div>
-					<div>
-			<a th:href="@{/user/following/} + ${userId}"> <strong
-				id="following" class="stat" th:text="${following.size()}">BBB</strong>following
-			</a> <a th:href="@{/user/followers/} + ${userId}"> <strong
-				id="follower" class="stat" th:text="${follower.size()}">BBB</strong>followers
-			</a>
-		</div>
-		<!-- shared _stats.html included into home.html or show_follow.html or show.html End -->
-	</div>
+			<div>
+				<div>
+					<img th:src="'http://secure.gravatar.com/avatar/'+${user.avatar}" />
+				</div>
+				<div>
+					<a th:href="@{/user/following/} + ${userId}"> <strong
+						id="following" class="stat" th:text="${following.size()}">BBB</strong>following
+					</a> <a th:href="@{/user/followers/} + ${userId}"> <strong
+						id="follower" class="stat" th:text="${follower.size()}">BBB</strong>followers
+					</a>
+				</div>
+				<!-- shared _stats.html included into home.html or show_follow.html or show.html End -->
+			</div>
 </body>
 </html>
