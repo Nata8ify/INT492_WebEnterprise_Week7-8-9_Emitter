@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.arms.app.helpers.Gravatar;
 import com.arms.app.user.UserAddForm;
 import com.arms.app.user.UserEditForm;
 import com.arms.app.user.UserFollowForm;
@@ -33,6 +34,7 @@ public class UserService extends AppService {
 		user.setPassword(passwordEncoder.hashMD5(userAddForm.getPassword()));
 		user.setCreated(nowDate);
 		user.setUpdated(nowDate);
+		user.setAvatar(new Gravatar().md5Hex(userAddForm.getEmail()));
 		userRepository.save(user);
 	}
 

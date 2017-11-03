@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 	
@@ -18,6 +20,7 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
+	private String avatar;
 	private Date created;
 	private Date updated;
 	private List<Micropost> micropostList;
@@ -44,7 +47,14 @@ public class User {
 		this.name = name;
 	}
 	
+	
 
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 	@Basic
 	@Column(name = "email")
 	public String getEmail() {

@@ -20,9 +20,15 @@ import com.arms.domain.service.AuthenticationService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AuthenticationService authenticationService;
-
+/*
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		auth.userDetailsService(authenticationService).passwordEncoder(encoder);
+	}*/
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 		auth.userDetailsService(authenticationService).passwordEncoder(encoder);
 	}
